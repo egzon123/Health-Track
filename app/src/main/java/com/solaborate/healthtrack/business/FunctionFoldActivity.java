@@ -38,8 +38,8 @@ public abstract class FunctionFoldActivity extends BaseActivity {
 
 //        mToolbarLayout = findViewById(R.id.toolbarLayout);
         mAppBar = findViewById(R.id.appBar);
-        mImgStatus = findViewById(R.id.imgStatus);
-        mTvDeviceInfo = findViewById(R.id.tvDeviceInfo);
+//        mImgStatus = findViewById(R.id.imgStatus);
+//        mTvDeviceInfo = findViewById(R.id.tvDeviceInfo);
         mTvTitle = findViewById(R.id.tvTitle);
 
 

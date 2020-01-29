@@ -31,12 +31,12 @@ public class
 MainActivity extends BaseFragmentActivity {
     @BindView(R.id.flContent)
     FrameLayout mFlContent;
-    @BindView(R.id.tvTitle)
-    TextView mTvTitle;
-    @BindView(R.id.tvDeviceInfo)
-    TextView mTvDeviceInfo;
-    @BindView(R.id.imgStatus)
-    ImageView mImgStatus;
+//    @BindView(R.id.tvTitle)
+//    TextView mTvTitle;
+//    @BindView(R.id.tvDeviceInfo)
+//    TextView mTvDeviceInfo;
+//    @BindView(R.id.imgStatus)
+//    ImageView mImgStatus;
 
     private Context mContext;
     private RxPermissions permissions;
@@ -205,8 +205,8 @@ MainActivity extends BaseFragmentActivity {
         Fragment fragment = ScanFragment.newInstance(param1, param2);
         addFragment(R.id.flContent, fragment, ScanFragment.class.getSimpleName());
         setTitle("Connected Device");
-        mTvDeviceInfo.setVisibility(View.VISIBLE);
-        mTvDeviceInfo.setText("Selected Device "+ param1);
+//        mTvDeviceInfo.setVisibility(View.VISIBLE);
+//        mTvDeviceInfo.setText("Selected Device "+ param1);
     }
 
     /**
@@ -239,17 +239,17 @@ MainActivity extends BaseFragmentActivity {
      * @param title
      */
     public void setTitle(String title) {
-        mTvTitle.setText(title);
+//        mTvTitle.setText(title);
     }
 
     /**
      * 设置设备连接信息
      *
-     * @param deviceInfo
+//     * @param deviceInfo
      */
-    public void setDeviceInfo(String deviceInfo) {
-        mTvDeviceInfo.setText(deviceInfo);
-    }
+//    public void setDeviceInfo(String deviceInfo) {
+//        mTvDeviceInfo.setText(deviceInfo);
+//    }
 
 
 //    @Override

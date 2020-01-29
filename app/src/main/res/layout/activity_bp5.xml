@@ -1,65 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlBaseActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    tools:context=".business.device.BP5">
+    android:background="@drawable/background"
+    tools:context=".business.device.BP5"
+    android:src="@drawable/first_page">
 
-
-
-
-    <TextView
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BP5"
-        android:gravity="center"
-        android:textSize="30dp"/>
+        android:background="@drawable/ic_battery_full_black_24dp"
+        android:layout_alignParentEnd="true"/>
 
-    <Button
-        android:id="@+id/btnDisconnect"
 
-        android:text="Disconnect"
-        android:layout_height="50dp"
-        android:layout_width="150dp" />
 
-    <TextView
-        android:layout_marginTop="10dp"
-        style="@style/FunctionHeadDefaultStyle"
-        android:gravity="center"
-        android:text="Measurment" />
-
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/base"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="600dp"
 
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/first_page"
+        >
 
         <Button
-            android:id="@+id/btnMeasurement"
+            android:id="@+id/btnDisconnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45dp"
+            android:background="@drawable/button"
+            android:text="Disconnect"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:paddingHorizontal="10dp"
+            android:textSize="18sp"
 
-            android:text="Start Measure"
-            android:layout_height="50dp"
-            android:layout_width="100dp" />
+            />
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnDisconnect"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp">
 
-        <Button
-            android:id="@+id/btnStopMeasurement"
-            android:text="Stop Measure"
-            android:layout_marginLeft="30dp"
-            android:layout_height="50dp"
-            android:layout_width="100dp" />
+            <Button
+                android:id="@+id/btnMeasurement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button"
+                android:text="Start"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <Button
+                android:id="@+id/btnStopMeasurement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnDisconnect"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/btnMeasurement"
+                android:layout_marginHorizontal="30dp"
+                android:background="@drawable/button"
+                android:text="Stop"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/highPressure"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="High Pressure"/>
+        <RelativeLayout
+            android:id="@+id/result"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_below="@+id/buttons"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/circle"
+            android:layout_marginTop="50dp">
 
-</LinearLayout>
+            <RelativeLayout
+                android:id="@+id/field1"
+                android:layout_width="110dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp">
 
+                <TextView
+                    android:id="@+id/nrHigh"
+                    android:layout_width="55dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:text="120"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/sys"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_toLeftOf="@+id/nrHigh"
+                    android:text="Sys"
+                    android:textColor="#dfdbdb"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/mmhg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nrHigh"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="2dp"
+                    android:text="mmHg"
+                    android:textColor="#dfdbdb"
+                    android:textSize="13sp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/field2"
+                android:layout_below="@+id/field1"
+                android:layout_width="110dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/nrLow"
+                    android:layout_width="55dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:text="80"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/dis"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/nrLow"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="23dp"
+                    android:text="Dis"
+                    android:textColor="#dfdbdb"
+                    android:textSize="15sp"
+                    />
+
+                <TextView
+                    android:id="@+id/mmhg1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nrLow"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="2dp"
+                    android:text="mmHg"
+                    android:textColor="#dfdbdb"
+                    android:textSize="13sp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/field3"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/field2"
+                android:layout_marginTop="15dp"
+                >
+
+                <TextView
+                    android:id="@+id/bpm"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="15dp"
+                    android:text="BPM"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    />
+                <TextView
+                    android:id="@+id/nrHartRate"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/bpm"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="7dp"
+                    android:text="88"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"/>
+
+                <ImageView
+                    android:id="@+id/heart_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@id/nrHartRate"
+                    android:background="@drawable/ic_heart"/>
+
+
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

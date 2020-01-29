@@ -29,8 +29,12 @@ import butterknife.OnClick;
 
 
 public class BP5 extends FunctionFoldActivity {
-    @BindView(R.id.highPressure)
+    @BindView(R.id.nrHigh)
     TextView highPressure;
+    @BindView(R.id.nrLow)
+    TextView lowPressure;
+    @BindView(R.id.nrHartRate)
+    TextView hartRate;
 //    Button mBtnOfflineMeasureEnable;
 //    @BindView(R.id.btnOfflineMeasureDisable)
     Button mBtnOfflineMeasureDisable;

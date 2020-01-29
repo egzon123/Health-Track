@@ -1,40 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="@drawable/background"
+    android:src="@drawable/first_page"
     tools:context=".business.ScanFragment">
 
-    <Button
-
-        android:id="@+id/btnDiscovery"
-
-        android:text="Start Discovery"
-        android:layout_height="50dp"
-        android:layout_width="100dp" />
-
-    <TextView
-        android:id="@+id/tvListTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Aviable devices"
-        android:textColor="@color/color_black_60"
-        android:textSize="14sp"
-        android:visibility="invisible" />
-
-    <ListView
-        android:id="@+id/NbList"
-        style="@style/ListViewDefaultStyle"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_weight="1"
-        android:layout_height="0dp"
-        android:divider="@color/color_black_30"
-        android:dividerHeight="1dp" />
 
 
 
-</LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_device"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/icon_device_bp5"
+            />
+
+        <Button
+            android:id="@+id/btnDiscovery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_device"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/button"
+            android:text="startDiscovery"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:paddingHorizontal="15dp"
+            android:textSize="18sp"
+
+            />
+
+        <TextView
+            android:id="@+id/tvListTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Aviable devices"
+            android:textColor="@color/color_black_60"
+            android:textSize="14sp"
+            android:layout_below="@+id/btnDiscovery"
+            android:layout_centerInParent="true"
+            android:visibility="invisible" />
+
+        <ListView
+            android:id="@+id/NbList"
+            style="@style/ListViewDefaultStyle"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_below="@+id/tvListTitle"
+            android:divider="@color/color_black_30"
+            android:dividerHeight="1dp" />
+
+
+</RelativeLayout>

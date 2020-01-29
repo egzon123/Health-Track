@@ -19,7 +19,7 @@
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:background="@drawable/circle_form"
-            android:src="@drawable/ic_bluetooth"
+            android:src="@drawable/ic_check_circle_black_24dp"
             android:layout_marginStart="40dp"
             />
         <ImageView
