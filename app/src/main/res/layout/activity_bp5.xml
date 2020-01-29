@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".business.device.BP5">
+
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BP5"
+        android:gravity="center"
+        android:textSize="30dp"/>
+
+    <Button
+        android:id="@+id/btnDisconnect"
+
+        android:text="Disconnect"
+        android:layout_height="50dp"
+        android:layout_width="150dp" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        style="@style/FunctionHeadDefaultStyle"
+        android:gravity="center"
+        android:text="Measurment" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnMeasurement"
+
+            android:text="Start Measure"
+            android:layout_height="50dp"
+            android:layout_width="100dp" />
+
+        <Button
+            android:id="@+id/btnStopMeasurement"
+            android:text="Stop Measure"
+            android:layout_marginLeft="30dp"
+            android:layout_height="50dp"
+            android:layout_width="100dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/highPressure"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="High Pressure"/>
+
+</LinearLayout>
+

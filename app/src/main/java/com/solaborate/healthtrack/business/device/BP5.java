@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ec.easylibrary.dialog.confirm.ConfirmDialog;
 import com.ec.easylibrary.utils.ToastUtils;
@@ -15,8 +17,8 @@ import com.ihealth.communication.control.Bp5Control;
 import com.ihealth.communication.control.BpProfile;
 import com.ihealth.communication.manager.iHealthDevicesCallback;
 import com.ihealth.communication.manager.iHealthDevicesManager;
-import com.ihealth.demo.R;
-import com.ihealth.demo.business.FunctionFoldActivity;
+import com.solaborate.healthtrack.R;
+import com.solaborate.healthtrack.business.FunctionFoldActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,9 +29,10 @@ import butterknife.OnClick;
 
 
 public class BP5 extends FunctionFoldActivity {
-    @BindView(R.id.btnOfflineMeasureEnable)
-    Button mBtnOfflineMeasureEnable;
-    @BindView(R.id.btnOfflineMeasureDisable)
+    @BindView(R.id.highPressure)
+    TextView highPressure;
+//    Button mBtnOfflineMeasureEnable;
+//    @BindView(R.id.btnOfflineMeasureDisable)
     Button mBtnOfflineMeasureDisable;
     private Context mContext;
     private static final String TAG = "BP5";
@@ -55,7 +58,7 @@ public class BP5 extends FunctionFoldActivity {
         /* Get bp5 controller */
         mBp5Control = iHealthDevicesManager.getInstance().getBp5Control(mDeviceMac);
 //        setDeviceInfo(mDeviceName, mDeviceMac);
-        mBp5Control.startMeasure();
+        //mBp5Control.startMeasure();
     }
 
     private iHealthDevicesCallback miHealthDevicesCallback = new iHealthDevicesCallback() {
@@ -66,8 +69,8 @@ public class BP5 extends FunctionFoldActivity {
             Log.i(TAG, "deviceType: " + deviceType);
             Log.i(TAG, "status: " + status);
             if (status == iHealthDevicesManager.DEVICE_STATE_DISCONNECTED) {
-                addLogInfo(mContext.getString(R.string.connect_main_tip_disconnect));
-                ToastUtils.showToast(mContext, mContext.getString(R.string.connect_main_tip_disconnect));
+//                addLogInfo(mContext.getString(R.string.connect_main_tip_disconnect));
+                ToastUtils.showToast(mContext,"The device has been disconnected.");
                 finish();
             }
         }
@@ -100,11 +103,11 @@ public class BP5 extends FunctionFoldActivity {
 
             } else if (BpProfile.ACTION_DISENABLE_OFFLINE_BP.equals(action)) {
                 Log.i(TAG, "disable operation is success");
-                addLogInfo("disable operation is success");
+//                addLogInfo("disable operation is success");
 
             } else if (BpProfile.ACTION_ENABLE_OFFLINE_BP.equals(action)) {
                 Log.i(TAG, "enable operation is success");
-                addLogInfo("enable operation is success");
+//                addLogInfo("enable operation is success");
             } else if (BpProfile.ACTION_ERROR_BP.equals(action)) {
                 try {
                     JSONObject info = new JSONObject(message);
@@ -246,7 +249,8 @@ public class BP5 extends FunctionFoldActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case HANDLER_MESSAGE:
-                    addLogInfo((String) msg.obj);
+//                    addLogInfo((String) msg.obj);
+                    highPressure.setText((String)msg.obj);
                     break;
             }
             super.handleMessage(msg);
@@ -265,82 +269,54 @@ public class BP5 extends FunctionFoldActivity {
     }
 
 
-    @OnClick({R.id.btnDisconnect, R.id.btnMeasurement, R.id.btnStopMeasurement, R.id.btnIDPS,
-            R.id.btnBattery, R.id.btnFunction, R.id.btnOfflineMeasureEnable, R.id.btnOfflineMeasureDisable,
-            R.id.btnDataNum, R.id.btnGetData})
+    @OnClick({R.id.btnDisconnect, R.id.btnMeasurement, R.id.btnStopMeasurement})
     public void onViewClicked(View view) {
         if (mBp5Control == null) {
-            addLogInfo("mBp5Control == null");
+//            addLogInfo("mBp5Control == null");
             return;
         }
-        showLogLayout();
+//        showLogLayout();
         switch (view.getId()) {
             case R.id.btnDisconnect:
                 mBp5Control.disconnect();
-                addLogInfo("disconnect()");
+                Toast.makeText(mContext, "Disconnected", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btnMeasurement:
                 mBp5Control.startMeasure();
-                addLogInfo("startMeasure()");
+//                highPressure.setText();
+//               addLogInfo("startMeasure()");
                 break;
             case R.id.btnStopMeasurement:
                 mBp5Control.interruptMeasure();
-                addLogInfo("interruptMeasure()");
+//                addLogInfo("interruptMeasure()");
                 break;
-            case R.id.btnIDPS:
-                String idps = mBp5Control.getIdps();
-                addLogInfo("getIdps() -->" + idps);
-                break;
-            case R.id.btnBattery:
-                mBp5Control.getBattery();
-                addLogInfo("getBattery()");
-                break;
-            case R.id.btnFunction:
-                mBp5Control.isEnableOffline();
-                addLogInfo("isEnableOffline()");
-                break;
-            case R.id.btnOfflineMeasureEnable:
-                mBp5Control.enbleOffline();
-                addLogInfo("enbleOffline()");
-                break;
-            case R.id.btnOfflineMeasureDisable:
-                mBp5Control.disableOffline();
-                addLogInfo("disableOffline()");
-                break;
-            case R.id.btnDataNum:
-                mBp5Control.getOfflineNum();
-                addLogInfo("getOfflineNum()");
-                break;
-            case R.id.btnGetData:
-                mBp5Control.getOfflineData();
-                addLogInfo("getOfflineData()");
-                break;
+
         }
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (KeyEvent.KEYCODE_BACK == keyCode) {
-            //如果当前在认证错误的页面 则直接返回 最开始的页面重新取认证
-            if (isShowingLogLayout()) {
-                hideLogLayout();
-            } else {
-                showConfirmDialog(mContext, mContext.getString(R.string.confirm_tip_function_title),
-                        mContext.getString(R.string.confirm_tip_function_message, mDeviceName, mDeviceMac), new ConfirmDialog.OnClickLisenter() {
-                            @Override
-                            public void positiveOnClick() {
-                                finish();
-                            }
-
-                            @Override
-                            public void nagetiveOnClick() {
-
-                            }
-                        });
-            }
-            return true;
-        }
-        return super.onKeyUp(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyUp(int keyCode, KeyEvent event) {
+//        if (KeyEvent.KEYCODE_BACK == keyCode) {
+//            //如果当前在认证错误的页面 则直接返回 最开始的页面重新取认证
+//            if (isShowingLogLayout()) {
+//                hideLogLayout();
+//            } else {
+//                showConfirmDialog(mContext, mContext.getString(R.string.confirm_tip_function_title),
+//                        mContext.getString(R.string.confirm_tip_function_message, mDeviceName, mDeviceMac), new ConfirmDialog.OnClickLisenter() {
+//                            @Override
+//                            public void positiveOnClick() {
+//                                finish();
+//                            }
+//
+//                            @Override
+//                            public void nagetiveOnClick() {
+//
+//                            }
+//                        });
+//            }
+//            return true;
+//        }
+//        return super.onKeyUp(keyCode, event);
+//    }
 
 }

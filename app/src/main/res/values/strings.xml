@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Health Track</string>
+    <string name="main_title_functions" translatable="false">Functions</string>
 </resources>
