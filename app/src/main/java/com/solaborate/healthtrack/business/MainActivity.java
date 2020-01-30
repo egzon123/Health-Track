@@ -31,12 +31,6 @@ public class
 MainActivity extends BaseFragmentActivity {
     @BindView(R.id.flContent)
     FrameLayout mFlContent;
-//    @BindView(R.id.tvTitle)
-//    TextView mTvTitle;
-//    @BindView(R.id.tvDeviceInfo)
-//    TextView mTvDeviceInfo;
-//    @BindView(R.id.imgStatus)
-//    ImageView mImgStatus;
 
     private Context mContext;
     private RxPermissions permissions;
@@ -142,80 +136,14 @@ MainActivity extends BaseFragmentActivity {
                 });
         System.out.println("===>>> Inside checkPermisson");
     }
-
-    /**
-     * 切换到认证页面
-     * Switch to Authentication Fragment
-     *
-     * @param param1
-     * @param param2
-     */
-//    public void showCertificationFragment(String param1, String param2) {
-//        mCurrentFragment = FRAGMENT_CERTIFICATION;
-//        Fragment fragment = CertificationFragment.newInstance(param1, param2);
-//        addFragment(R.id.flContent, fragment, CertificationFragment.class.getSimpleName());
-//        setTitle(mContext.getString(R.string.main_title_authorization));
-//        mTvDeviceInfo.setVisibility(View.INVISIBLE);
-//        mImgStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.activity_main_icon_status_normal));
-//    }
-
-    /**
-     * 切换到认证失败log展示页面
-     * Switch to LogFragment
-     *
-     * @param param1
-     * @param param2
-     */
-//    public void showCertificationLogFragment(String param1, String param2) {
-//        mCurrentFragment = FRAGMENT_CERTIFICATION_ERROR;
-//        Fragment fragment = LogFragment.newInstance(param1, param2);
-//        addFragment(R.id.flContent, fragment, LogFragment.class.getSimpleName());
-//        setTitle(mContext.getString(R.string.main_title_authorization));
-//        setDeviceInfo(mContext.getString(R.string.main_tip_author_fail));
-//        mTvDeviceInfo.setVisibility(View.VISIBLE);
-//        mImgStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.activity_main_icon_status_1_error));
-//    }
-
-    /**
-     * 切换到显示所有设备到主页面
-     * Switch to DevicesFragment
-     *
-     * @param param1
-     * @param param2
-     */
-//    public void showDevicesFragment(String param1, String param2) {
-//        mCurrentFragment = FRAGMENT_DEVICE_MAIN;
-//        Fragment fragment = DevicesFragment.newInstance(param1, param2);
-//        addFragment(R.id.flContent, fragment, DevicesFragment.class.getSimpleName());
-//        setTitle(mContext.getString(R.string.main_title_connect));
-//        mTvDeviceInfo.setVisibility(View.VISIBLE);
-//        mTvDeviceInfo.setText(mContext.getString(R.string.main_tip_select_device, ""));
-//        mImgStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.activity_main_icon_status_1_ok));
-//    }
-
-    /**
-     * 切换到搜索页面
-     * Switch to showScanFragment
-     *
-     * @param param1
-     * @param param2
-     */
     public void showScanFragment(String param1, String param2) {
         mCurrentFragment = FRAGMENT_SCAN;
         Fragment fragment = ScanFragment.newInstance(param1, param2);
         addFragment(R.id.flContent, fragment, ScanFragment.class.getSimpleName());
         setTitle("Connected Device");
-//        mTvDeviceInfo.setVisibility(View.VISIBLE);
-//        mTvDeviceInfo.setText("Selected Device "+ param1);
+
     }
 
-    /**
-     * 跳转到设备功能页
-     * Switch to showFunctionActivity
-     *
-     * @param mac
-     * @param type
-     */
     public void showFunctionActivity(String mac, String type) {
 
         Intent intent = new Intent();
@@ -232,51 +160,6 @@ MainActivity extends BaseFragmentActivity {
 
         startActivity(intent);
     }
-
-    /**
-     * 设置主页面到标题
-     *
-     * @param title
-     */
-    public void setTitle(String title) {
-//        mTvTitle.setText(title);
-    }
-
-    /**
-     * 设置设备连接信息
-     *
-//     * @param deviceInfo
-     */
-//    public void setDeviceInfo(String deviceInfo) {
-//        mTvDeviceInfo.setText(deviceInfo);
-//    }
-
-
-//    @Override
-//    public boolean onKeyUp(int keyCode, KeyEvent event) {
-//        if (KeyEvent.KEYCODE_BACK == keyCode) {
-//            //如果当前在认证错误的页面 则直接返回 最开始的页面重新取认证
-//            if (mCurrentFragment == FRAGMENT_CERTIFICATION_ERROR) {
-//                showCertificationFragment("", "");
-//            } else if (mCurrentFragment == FRAGMENT_SCAN) {//如果当前在搜索页面 则直接返回 设备主页面
-//                showDevicesFragment("", "");
-//            } else {//点击两次返回退出
-//                long currTime = System.currentTimeMillis();
-//                if (currTime - mTimeKeyBackPressed > TIMEOUT_EXIT) {
-//                    ToastUtils.showToast(this, R.string.exit_warning);
-//                    mTimeKeyBackPressed = currTime;
-//                } else {
-//                    ToastUtils.stopToast();
-//                    finish();
-//                    System.exit(0);
-//                }
-//            }
-//
-//
-//            return true;
-//        }
-//        return super.onKeyUp(keyCode, event);
-//    }
 
     @Override
     protected void onDestroy() {

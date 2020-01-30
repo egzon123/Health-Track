@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,12 +31,20 @@ import butterknife.OnClick;
 
 public class BP5 extends FunctionFoldActivity {
     @BindView(R.id.nrHigh)
-    TextView highPressure;
+    TextView highPressureTxt;
     @BindView(R.id.nrLow)
-    TextView lowPressure;
+    TextView lowPressureTxt;
     @BindView(R.id.nrHartRate)
-    TextView hartRate;
-//    Button mBtnOfflineMeasureEnable;
+    TextView hartRateTxt;
+    @BindView(R.id.number_pressure)
+    TextView number_pressure;
+    @BindView(R.id.battery_nr)
+    TextView battery_nr;
+    @BindView(R.id.battery_linear)
+    LinearLayout battery_linear;
+    public static String battery_get;
+
+    //    Button mBtnOfflineMeasureEnable;
 //    @BindView(R.id.btnOfflineMeasureDisable)
     Button mBtnOfflineMeasureDisable;
     private Context mContext;
@@ -61,8 +70,8 @@ public class BP5 extends FunctionFoldActivity {
         iHealthDevicesManager.getInstance().addCallbackFilterForDeviceType(mClientCallbackId, iHealthDevicesManager.TYPE_BP5);
         /* Get bp5 controller */
         mBp5Control = iHealthDevicesManager.getInstance().getBp5Control(mDeviceMac);
-//        setDeviceInfo(mDeviceName, mDeviceMac);
-        //mBp5Control.startMeasure();
+
+        mBp5Control.getBattery();
     }
 
     private iHealthDevicesCallback miHealthDevicesCallback = new iHealthDevicesCallback() {
@@ -74,7 +83,7 @@ public class BP5 extends FunctionFoldActivity {
             Log.i(TAG, "status: " + status);
             if (status == iHealthDevicesManager.DEVICE_STATE_DISCONNECTED) {
 //                addLogInfo(mContext.getString(R.string.connect_main_tip_disconnect));
-                ToastUtils.showToast(mContext,"The device has been disconnected.");
+                ToastUtils.showToast(mContext, "The device has been disconnected.");
                 finish();
             }
         }
@@ -99,6 +108,9 @@ public class BP5 extends FunctionFoldActivity {
                     Message msg = new Message();
                     msg.what = HANDLER_MESSAGE;
                     msg.obj = "battery: " + battery;
+                    battery_linear.setVisibility(View.VISIBLE);
+                    battery_nr.setText(battery+"%");
+                    battery_get = battery;
                     myHandler.sendMessage(msg);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -119,6 +131,16 @@ public class BP5 extends FunctionFoldActivity {
                     Message msg = new Message();
                     msg.what = HANDLER_MESSAGE;
                     msg.obj = "error num: " + num;
+                    int errorNum = Integer.parseInt(num);
+                    if(errorNum>=0 && errorNum<=2){
+                        Toast.makeText(mContext, "Try again without moving.", Toast.LENGTH_SHORT).show();
+                    }else if(errorNum==3 || errorNum==4){
+                        Toast.makeText(mContext, "Attach the cuff correctly and try again.", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(mContext, "Wait 5 minutes and try again.", Toast.LENGTH_SHORT);
+                    }
+
+                    Toast.makeText(mContext, "Place your arme in the Device", Toast.LENGTH_SHORT).show();
                     myHandler.sendMessage(msg);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -189,10 +211,12 @@ public class BP5 extends FunctionFoldActivity {
                 try {
                     JSONObject info = new JSONObject(message);
                     String pressure = info.getString(BpProfile.BLOOD_PRESSURE_BP);
-                    Message msg = new Message();
-                    msg.what = HANDLER_MESSAGE;
-                    msg.obj = "pressure: " + pressure;
-                    myHandler.sendMessage(msg);
+//                    Message msg = new Message();
+//                    msg.what = HANDLER_MESSAGE;
+//                    msg.obj = "pressure: " + pressure;
+                    Log.d("BP5", "pressure = " + pressure);
+                    number_pressure.setText(pressure);
+                    //   myHandler.sendMessage(msg);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -208,6 +232,7 @@ public class BP5 extends FunctionFoldActivity {
                     msg.obj = "pressure:" + pressure + "\n"
                             + "wave: " + wave + "\n"
                             + " - heartbeat:" + heartbeat;
+                    number_pressure.setText(pressure);
                     myHandler.sendMessage(msg);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -220,13 +245,16 @@ public class BP5 extends FunctionFoldActivity {
                     String lowPressure = info.getString(BpProfile.LOW_BLOOD_PRESSURE_BP);
                     String ahr = info.getString(BpProfile.MEASUREMENT_AHR_BP);
                     String pulse = info.getString(BpProfile.PULSE_BP);
-                    Log.d("ErzenTest"," highPressure = " + highPressure);
+                    Log.d("ErzenTest", " highPressure = " + highPressure);
                     Message msg = new Message();
                     msg.what = HANDLER_MESSAGE;
                     msg.obj = "highPressure: " + highPressure
-                            + "lowPressure: " + lowPressure
-                            + "ahr: " + ahr
-                            + "pulse: " + pulse;
+                            + " lowPressure: " + lowPressure
+                            + " ahr: " + ahr
+                            + " pulse: " + pulse;
+                    highPressureTxt.setText(highPressure);
+                    lowPressureTxt.setText(lowPressure);
+                    hartRateTxt.setText(pulse);
                     myHandler.sendMessage(msg);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -253,8 +281,9 @@ public class BP5 extends FunctionFoldActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case HANDLER_MESSAGE:
-//                    addLogInfo((String) msg.obj);
-                    highPressure.setText((String)msg.obj);
+                    addLogInfo((String) msg.obj);
+                    String output = (String) msg.obj;
+                    System.out.println("Inside handler message ===>>> " + output);
                     break;
             }
             super.handleMessage(msg);
@@ -264,7 +293,7 @@ public class BP5 extends FunctionFoldActivity {
 
     @Override
     protected void onDestroy() {
-        if(mBp5Control!=null){
+        if (mBp5Control != null) {
             mBp5Control.disconnect();
         }
         iHealthDevicesManager.getInstance().unRegisterClientCallback(mClientCallbackId);
@@ -283,6 +312,7 @@ public class BP5 extends FunctionFoldActivity {
         switch (view.getId()) {
             case R.id.btnDisconnect:
                 mBp5Control.disconnect();
+
                 Toast.makeText(mContext, "Disconnected", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btnMeasurement:
@@ -298,29 +328,5 @@ public class BP5 extends FunctionFoldActivity {
         }
     }
 
-//    @Override
-//    public boolean onKeyUp(int keyCode, KeyEvent event) {
-//        if (KeyEvent.KEYCODE_BACK == keyCode) {
-//            //如果当前在认证错误的页面 则直接返回 最开始的页面重新取认证
-//            if (isShowingLogLayout()) {
-//                hideLogLayout();
-//            } else {
-//                showConfirmDialog(mContext, mContext.getString(R.string.confirm_tip_function_title),
-//                        mContext.getString(R.string.confirm_tip_function_message, mDeviceName, mDeviceMac), new ConfirmDialog.OnClickLisenter() {
-//                            @Override
-//                            public void positiveOnClick() {
-//                                finish();
-//                            }
-//
-//                            @Override
-//                            public void nagetiveOnClick() {
-//
-//                            }
-//                        });
-//            }
-//            return true;
-//        }
-//        return super.onKeyUp(keyCode, event);
-//    }
 
 }

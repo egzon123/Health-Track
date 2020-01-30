@@ -47,8 +47,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private TranslateAnimation mHiddenAction;
     /** Global Log Information */
     private String mLogInformation = "";
-    /** Confirm Dialog */
-    private ConfirmDialog mConfirmDialog;
     /** Device Name */
     public String mDeviceName = "";
     /** Device Mac */
@@ -120,33 +118,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         mHiddenAction.setDuration(500);
     }
 
-    public void showConfirmDialog(Context context, String title, String messgae, ConfirmDialog.OnClickLisenter lisenter) {
-        mConfirmDialog = new ConfirmDialog(context, mScreenWidth - 100, mScreenHeight / 3, title, messgae, lisenter);
-        mConfirmDialog.show();
-    }
-
-
-
-    public void showLogLayout() {
-        if (mLogLayout.getVisibility() != View.VISIBLE) {
-            mLogLayout.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_view_show));
-            mLogLayout.setVisibility(View.VISIBLE);
-        }
-
-    }
-
-    public void hideLogLayout() {
-        if (mLogLayout.getVisibility() != View.GONE) {
-            mLogLayout.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_view_dismiss));
-            mLogLayout.setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * 将信息存储到日志中
-     * Add information to the log
-     * @param infomation
-     */
     public void addLogInfo(String infomation) {
         if (infomation != null && !infomation.isEmpty()) {
             String infor = DateUtils.getNow("yyyy-MM-dd HH:mm:ss.SSS") + ": " + infomation + " \n";
@@ -158,40 +129,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 清空日志
-     * Clear log
-     */
-
-    /**
-     * 获取日志
-     * Get log
-     * @return
-     */
-    public String getLogInformation() {
-        return mLogInformation;
-    }
-
-
-    /**
-     * 判断日志是否正在显示
-     * is the log showing now?
-     * @return
-     */
-    public boolean isShowingLogLayout() {
-        return mLogLayout.getVisibility() == View.VISIBLE;
-    }
-
-    /**
-     * 设置全局设备信息
-     * set global device information
-     * @param deviceName device show name
-     * @param deviceMac device mac
-     */
-    public void setDeviceInfo(String deviceName, String deviceMac) {
-        mDeviceName = deviceName;
-        mDeviceMac = deviceMac;
-    }
 
     @Override
     protected void onDestroy() {

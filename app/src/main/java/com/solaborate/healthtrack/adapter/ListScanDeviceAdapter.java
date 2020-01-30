@@ -28,6 +28,7 @@ public class ListScanDeviceAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+
         return mList.size();
     }
 

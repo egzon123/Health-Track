@@ -55,6 +55,7 @@ public class ScanFragment extends BaseFragment {
     ListView mNbListView;
 
 
+
     // TODO: Rename and change types of parameters
     private String mDeviceName;
     private String mParam2;
@@ -303,23 +304,12 @@ public class ScanFragment extends BaseFragment {
         mTvListTitle.setVisibility(View.VISIBLE);
         list_ScanDevices.clear();
         mAdapter.notifyDataSetChanged();
-        if (mDeviceName.equals("KN550BT")) {
-            iHealthDevicesManager.getInstance().startDiscovery(getDiscoveryTypeEnum("BP550BT"));
-        } else if (mDeviceName.equals("FDIR-V3")) {
-            iHealthDevicesManager.getInstance().startDiscovery(getDiscoveryTypeEnum("FDIR_V3"));
-        } else if (mDeviceName.equals("ECGUSB")) {
-            iHealthDevicesManager.getInstance().startDiscovery(getDiscoveryTypeEnum("ECG3USB"));
-        } else if(mDeviceName.contains("PO3")){
-            iHealthDevicesManager.getInstance().startDiscovery(getDiscoveryTypeEnum("PO3"));
-        }else{
             iHealthDevicesManager.getInstance().startDiscovery(getDiscoveryTypeEnum(mDeviceName));
-        }
-        showLog("startDiscovery() ---current device type:" + mDeviceName);
+            showLog("startDiscovery() ---current device type:" + mDeviceName);
     }
 
     public void showLog(String log) {
         mMainActivity.addLogInfo(log);
-
     }
 
 
