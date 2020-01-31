@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -23,46 +24,69 @@ import com.ec.easylibrary.AppManager;
 import com.ec.easylibrary.dialog.confirm.ConfirmDialog;
 import com.ec.easylibrary.utils.DateUtils;
 
+import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 import com.solaborate.healthtrack.BaseApplication;
 import com.solaborate.healthtrack.R;
+import com.solaborate.healthtrack.presenters.BasePresenter;
+import com.solaborate.healthtrack.views.BaseView;
+import com.solaborate.healthtrack.views.MainView;
 
 import butterknife.ButterKnife;
 
 /**
  * <li>BaseActivity</li>
  * <li>All Activity Basic</li>
- *
+ * <p>
  * Created by wj on 2018/11/20
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends MvpActivity<BaseView, BasePresenter> implements BaseView {
     private static final String TAG = "BaseActivity";
     public Context mContext;
     private RelativeLayout mRlMain;
-    /** Log */
+    /**
+     * Log
+     */
     public TextView mTvLogMessage;
     public LinearLayout mLogLayout;
     public ScrollView mScrollViewLog;
-    /** Animation */
-    private TranslateAnimation mShowAction;
-    private TranslateAnimation mHiddenAction;
-    /** Global Log Information */
-    private String mLogInformation = "";
-    /** Device Name */
+
+
+    /**
+     * Device Name
+     */
     public String mDeviceName = "";
-    /** Device Mac */
+    /**
+     * Device Mac
+     */
     public String mDeviceMac = "";
-    /** Global Screen Width Default 1080 px*/
+    /**
+     * Global Screen Width Default 1080 px
+     */
     public int mScreenWidth = 1080;
-    /** Global Screen Height Default 1920 px*/
+    /**
+     * Global Screen Height Default 1920 px
+     */
     public int mScreenHeight = 1920;
-    /** Handle Message What Code*/
+    /**
+     * Handle Message What Code
+     */
     public static final int HANDLER_MESSAGE = 101;
-    /** Importing Layout  Abstraction Method*/
+
+    /**
+     * Importing Layout  Abstraction Method
+     */
     public abstract int contentViewID();
-    /** Init  Abstraction Method*/
+
+    /**
+     * Init  Abstraction Method
+     */
     public abstract void initView();
 
-
+    @NonNull
+    @Override
+    public BasePresenter createPresenter() {
+        return new BasePresenter();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +99,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
+
     public void setBaseActivityLayout() {
         setContentView(R.layout.activity_base);
     }
@@ -83,8 +108,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void initBaseActivity() {
         mContext = BaseApplication.instance().getApplicationContext();
         mRlMain = findViewById(R.id.rlMain);
-
-
         if (contentViewID() != 0) {
             View layout = LayoutInflater.from(mContext).inflate(contentViewID(), null);
             layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -100,35 +123,24 @@ public abstract class BaseActivity extends AppCompatActivity {
         mScreenWidth = outMetrics.widthPixels;
         mScreenHeight = outMetrics.heightPixels;
 
-        initAnim();
+        presenter.initAnim();
         initView();
 
     }
 
-    private void initAnim() {
-        mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
-                -2.0f, Animation.RELATIVE_TO_SELF, -1.0f);
-        mShowAction.setDuration(500);
-
-        mHiddenAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
-                0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, -1.0f, Animation.RELATIVE_TO_SELF,
-                -2.0f);
-        mHiddenAction.setDuration(500);
-    }
 
     public void addLogInfo(String infomation) {
-        if (infomation != null && !infomation.isEmpty()) {
-            String infor = DateUtils.getNow("yyyy-MM-dd HH:mm:ss.SSS") + ": " + infomation + " \n";
-            mLogInformation += infor;
-            if (mTvLogMessage != null) {
-                mTvLogMessage.append(infor);
-                mScrollViewLog.fullScroll(ScrollView.FOCUS_DOWN);
-            }
-        }
+        presenter.addLogInfo(infomation);
+
     }
 
+    @Override
+    public void showLogInfo(String message) {
+        if (mTvLogMessage != null) {
+            mTvLogMessage.append(message);
+            mScrollViewLog.fullScroll(ScrollView.FOCUS_DOWN);
+        }
+    }
 
     @Override
     protected void onDestroy() {

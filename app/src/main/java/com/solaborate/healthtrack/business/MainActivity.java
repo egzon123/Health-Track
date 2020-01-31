@@ -3,13 +3,9 @@ package com.solaborate.healthtrack.business;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 
 
 import com.ihealth.communication.manager.iHealthDevicesManager;
@@ -18,6 +14,8 @@ import com.solaborate.healthtrack.R;
 import com.solaborate.healthtrack.base.BaseFragmentActivity;
 import com.solaborate.healthtrack.business.device.BP5;
 import com.solaborate.healthtrack.model.DeviceCharacteristic;
+import com.solaborate.healthtrack.presenters.BasePresenter;
+import com.solaborate.healthtrack.presenters.MainPresenter;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.ec.easylibrary.utils.ToastUtils;
@@ -27,8 +25,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
 
-public class
-MainActivity extends BaseFragmentActivity {
+public class MainActivity extends BaseFragmentActivity {
     @BindView(R.id.flContent)
     FrameLayout mFlContent;
 
@@ -49,6 +46,12 @@ MainActivity extends BaseFragmentActivity {
     public static final int FRAGMENT_DEVICE_MAIN = 2;
     public static final int FRAGMENT_SCAN = 3;
 
+    @NonNull
+    @Override
+    public BasePresenter createPresenter() {
+        return new MainPresenter();
+    }
+
     private int mCurrentFragment;
 
     private long mTimeKeyBackPressed = 0; // Back键按下时的系统时间
@@ -63,6 +66,7 @@ MainActivity extends BaseFragmentActivity {
     @Override
     public int contentViewID() {
         return R.layout.activity_main;
+
     }
 
     @Override
@@ -166,4 +170,5 @@ MainActivity extends BaseFragmentActivity {
         super.onDestroy();
         BaseApplication.instance().logOut();
     }
+
 }

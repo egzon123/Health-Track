@@ -8,7 +8,13 @@
     tools:context=".business.MainActivity"
     android:src="@drawable/first_page">
 
-    <include layout="@layout/layout_main_top"/>
+    <include
+        android:id="@+id/main_top_first"
+        layout="@layout/layout_main_top"/>
+    <include
+        android:id="@+id/main_top_second"
+        android:visibility="gone"
+        layout="@layout/layout_main_top_second"/>
     <FrameLayout
         android:layout_marginTop="15dp"
         android:id="@+id/flContent"
