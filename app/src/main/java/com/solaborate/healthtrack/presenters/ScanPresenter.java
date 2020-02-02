@@ -4,17 +4,11 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
 
-import com.ec.easylibrary.dialog.loadingdialog.LoadingDialog;
 import com.ec.easylibrary.utils.ToastUtils;
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 import com.ihealth.communication.control.BtmControl;
@@ -25,7 +19,6 @@ import com.ihealth.communication.manager.iHealthDevicesManager;
 import com.solaborate.healthtrack.BaseApplication;
 import com.solaborate.healthtrack.adapter.ListScanDeviceAdapter;
 import com.solaborate.healthtrack.business.Certification;
-import com.solaborate.healthtrack.business.device.BP5;
 import com.solaborate.healthtrack.model.DeviceCharacteristic;
 import com.solaborate.healthtrack.views.ScanView;
 import com.tbruyelle.rxpermissions2.Permission;
@@ -43,10 +36,6 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
     private RxPermissions permissions;
     private static final String TAG = "ScanPresenter";
 
-    /** Animation */
-    private TranslateAnimation mShowAction;
-    private TranslateAnimation mHiddenAction;
-    //handler 中处理的四种状态
     public static final int HANDLER_SCAN = 101;
     public static final int HANDLER_CONNECTED = 102;
     public static final int HANDLER_DISCONNECT = 103;
@@ -57,39 +46,28 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
     //Support device list
     public static ArrayList<DeviceCharacteristic> deviceStructList = new ArrayList<>();
 
-    //退出事件的超时时间
-    //Setting this time can change the response time when you exit the application.
-    private final static long TIMEOUT_EXIT = 2000;
-
-
-    // TODO: Rename and change types of parameters
     private String mDeviceName = "BP5";
-    private String mParam2;
     private int callbackId;
     private List<DeviceCharacteristic> list_ScanDevices = new ArrayList<>();
     private ListScanDeviceAdapter mAdapter;
 
 
-    /**
-     *
-     */
     public void init(Context context) {
         mContext = BaseApplication.instance().getApplicationContext();
         checkPermission(context);
         initDeviceInfo();
-        if(checkCertificaton()){
+        if (checkCertificaton()) {
             registerCallBackId();
         }
     }
 
     private boolean checkCertificaton() {
         Certification certification = new Certification();
-      return certification.checkIfPass();
+        return certification.checkIfPass();
     }
 
 
     /**
-     *
      * Initialize all support device information
      */
     private void initDeviceInfo() {
@@ -110,7 +88,7 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
     }
 
     /**
-     * 检查权限
+     *
      * check Permission
      */
     @SuppressLint("CheckResult")
@@ -238,7 +216,7 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
                     device.setRssi(rssi);
                     device.setDeviceMac(macScan);
                     //ECG devices should deal with multiple USB connection duplicate display
-                    if (mDeviceName.equals("ECGUSB")||mDeviceName.equals("ECG3USB")) {
+                    if (mDeviceName.equals("ECGUSB") || mDeviceName.equals("ECG3USB")) {
                         for (int x = 0; x < list_ScanDevices.size(); x++) {
                             if (list_ScanDevices.get(x).getDeviceMac().equals(device.getDeviceMac())) {
                                 list_ScanDevices.remove(x);
@@ -255,7 +233,7 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
                         view.loadingDialogDismis();
                     });
 
-                    Log.d(TAG,"scan device : type:" + typeScan + " mac:" + macScan + " rssi:" + rssi);
+                    Log.d(TAG, "scan device : type:" + typeScan + " mac:" + macScan + " rssi:" + rssi);
                     break;
 
                 case HANDLER_CONNECTED:
@@ -264,21 +242,21 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
                     String typeConnect = bundleConnect.getString("type");
                     iHealthDevicesManager.getInstance().stopDiscovery();
                     ifViewAttached(view -> {
-                        view.showFunctionActivity(macConnect,typeConnect);
+                        view.showFunctionActivity(macConnect, typeConnect);
                     });
                     ifViewAttached(view -> {
                         view.loadingDialogDismis();
                     });
 
-                    ToastUtils.showToast(mContext,"The device is connected");
-                    Log.d(TAG,"connected device : type:" + typeConnect + " mac:" + macConnect);
+                    ToastUtils.showToast(mContext, "The device is connected");
+                    Log.d(TAG, "connected device : type:" + typeConnect + " mac:" + macConnect);
                     break;
                 case HANDLER_DISCONNECT:
                     ifViewAttached(view -> {
                         view.loadingDialogDismis();
                     });
 
-                    ToastUtils.showToast(mContext,"The device has been disconnected");
+                    ToastUtils.showToast(mContext, "The device has been disconnected");
 //                    showLog(mContext.getString(R.string.connect_main_tip_disconnect));
                     break;
                 case HANDLER_CONNECT_FAIL:
@@ -311,8 +289,8 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
         }
 
         if (!req) {
-            ToastUtils.showToast(mContext,"Haven't premissoin to connect this device or the mac is not valid");
-            Log.d(TAG,"Haven't premissoin to connect this device or the mac is not valid");
+            ToastUtils.showToast(mContext, "Haven't premissoin to connect this device or the mac is not valid");
+            Log.d(TAG, "Haven't premissoin to connect this device or the mac is not valid");
         }
     }
 
@@ -329,15 +307,18 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
     public void startDiscovery() {
         list_ScanDevices.clear();
         mAdapter.notifyDataSetChanged();
-        ifViewAttached(view -> {
-            view.loadingDialogShow();
-        });
+
         iHealthDevicesManager.getInstance().startDiscovery(getDiscoveryTypeEnum(mDeviceName));
-        Log.d(TAG,"startDiscovery() ---current device type:" + mDeviceName);
+        Log.d(TAG, "startDiscovery() ---current device type:" + mDeviceName);
     }
 
-    public void connectDevice(int position){
+    public void connectDevice(int position) {
         DeviceCharacteristic deviceCharacteristic = list_ScanDevices.get(position);
         ConnectDevice(deviceCharacteristic.getDeviceName(), deviceCharacteristic.getDeviceMac(), "");
+    }
+
+    public void unregisterCallBack() {
+        iHealthDevicesManager.getInstance().unRegisterClientCallback(callbackId);
+        BaseApplication.instance().logOut();
     }
 }

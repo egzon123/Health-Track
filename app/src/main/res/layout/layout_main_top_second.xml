@@ -5,13 +5,35 @@
     android:orientation="vertical"
 
     android:background="@drawable/background">
+    <LinearLayout
+        android:id="@+id/battery_linear"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/battery_nr"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="100%" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_battery_full_black_24dp" />
+
+
+    </LinearLayout>
     <RelativeLayout
         android:layout_gravity="center_horizontal"
         android:id="@+id/rel1"
         android:layout_width="300dp"
         android:layout_height="80dp"
-        android:layout_marginTop="70dp"
         android:layout_centerHorizontal="true">
 
         <ImageView

@@ -5,37 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".business.device.BP5"
-    android:src="@drawable/first_page">
-
-
-
+    android:src="@drawable/first_page"
+    tools:context=".activities.BP5Activity">
 
 
     <RelativeLayout
         android:id="@+id/base"
+
         android:layout_width="match_parent"
         android:layout_height="600dp"
 
         android:layout_marginBottom="10dp"
-        android:background="@drawable/first_page"
-        >
+        android:background="@drawable/first_page">
+
+        <include layout="@layout/layout_main_top_second" />
 
         <Button
             android:id="@+id/btnDisconnect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="120dp"
             android:background="@drawable/button"
+            android:paddingHorizontal="10dp"
             android:text="Disconnect"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:paddingHorizontal="10dp"
             android:textSize="18sp"
+            android:textStyle="bold"
 
             />
+
         <LinearLayout
             android:id="@+id/buttons"
             android:layout_width="wrap_content"
@@ -56,20 +56,21 @@
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
             <Button
                 android:id="@+id/btnStopMeasurement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btnDisconnect"
+                android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/btnMeasurement"
-                android:layout_marginHorizontal="30dp"
                 android:background="@drawable/button"
                 android:text="Stop"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -78,35 +79,34 @@
             android:layout_width="300dp"
             android:layout_height="80dp"
             android:layout_below="@id/buttons"
-            android:layout_marginTop="30dp"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+           >
 
 
-                <TextView
-                    android:id="@+id/pressure_text"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="25dp"
-                    android:text="Pressure"
-                    android:background="@drawable/border"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/pressure_text"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/border"
+                android:gravity="center"
+                android:text="Pressure"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
 
-                <TextView
-                    android:id="@+id/number_pressure"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="20dp"
-                    android:text="0"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:background="@drawable/border"
-                    android:textSize="18sp"
-                    />
+            <TextView
+                android:id="@+id/number_pressure"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/border"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
@@ -117,8 +117,7 @@
             android:layout_height="250dp"
             android:layout_below="@+id/pressure_id"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/circle"
-            android:layout_marginTop="35dp">
+            android:background="@drawable/circle">
 
             <RelativeLayout
                 android:id="@+id/field1"
@@ -134,11 +133,11 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="20dp"
-                    android:text="0"
-                    android:textSize="30sp"
                     android:gravity="center"
+                    android:text="0"
                     android:textColor="@android:color/white"
-                    android:textStyle="bold"/>
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/sys"
@@ -159,18 +158,18 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/nrHigh"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginRight="25dp"
                     android:layout_marginTop="2dp"
+                    android:layout_marginRight="25dp"
                     android:text="mmHg"
                     android:textColor="#dfdbdb"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/field2"
-                android:layout_below="@+id/field1"
                 android:layout_width="110dp"
                 android:layout_height="60dp"
+                android:layout_below="@+id/field1"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp">
 
@@ -181,24 +180,23 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="20dp"
-                    android:text="0"
-                    android:textSize="30sp"
                     android:gravity="center"
+                    android:text="0"
                     android:textColor="@android:color/white"
-                    android:textStyle="bold"/>
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/dis"
                     android:layout_width="25dp"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/nrLow"
-                    android:layout_marginRight="2dp"
                     android:layout_marginTop="23dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_toLeftOf="@+id/nrLow"
                     android:text="Dis"
                     android:textColor="#dfdbdb"
-                    android:textSize="15sp"
-                    />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/mmhg1"
@@ -206,11 +204,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/nrLow"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginRight="25dp"
                     android:layout_marginTop="2dp"
+                    android:layout_marginRight="25dp"
                     android:text="mmHg"
                     android:textColor="#dfdbdb"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp" />
 
             </RelativeLayout>
 
@@ -218,33 +216,32 @@
                 android:id="@+id/field3"
                 android:layout_width="110dp"
                 android:layout_height="40dp"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@+id/field2"
-                android:layout_marginTop="15dp"
-                >
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:id="@+id/bpm"
                     android:layout_width="25dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginRight="5dp"
                     android:layout_marginTop="15dp"
+                    android:layout_marginRight="5dp"
                     android:text="BPM"
                     android:textColor="@android:color/white"
-                    android:textSize="10sp"
-                    />
+                    android:textSize="10sp" />
+
                 <TextView
                     android:id="@+id/nrHartRate"
                     android:layout_width="35dp"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/bpm"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="7dp"
-                    android:text="0"
+                    android:layout_toLeftOf="@+id/bpm"
                     android:gravity="center"
+                    android:text="0"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/heart_icon"
@@ -253,8 +250,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="5dp"
                     android:layout_toLeftOf="@id/nrHartRate"
-                    android:background="@drawable/ic_heart"/>
-
+                    android:background="@drawable/ic_heart" />
 
 
             </RelativeLayout>
@@ -262,7 +258,6 @@
 
         </RelativeLayout>
     </RelativeLayout>
-
 
 
 </RelativeLayout>
