@@ -4,22 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ec.easylibrary.dialog.confirm.ConfirmDialog;
 import com.ec.easylibrary.utils.ToastUtils;
+import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 import com.ihealth.communication.control.Bp5Control;
 import com.ihealth.communication.control.BpProfile;
 import com.ihealth.communication.manager.iHealthDevicesCallback;
 import com.ihealth.communication.manager.iHealthDevicesManager;
 import com.solaborate.healthtrack.R;
-import com.solaborate.healthtrack.business.FunctionFoldActivity;
+import com.solaborate.healthtrack.presenters.Bp5Presenter;
+import com.solaborate.healthtrack.views.Bp5View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +30,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class BP5 extends FunctionFoldActivity {
+public class BP5 extends MvpActivity<Bp5View, Bp5Presenter> implements Bp5View{
     @BindView(R.id.nrHigh)
     TextView highPressureTxt;
     @BindView(R.id.nrLow)
@@ -43,6 +44,9 @@ public class BP5 extends FunctionFoldActivity {
     @BindView(R.id.battery_linear)
     LinearLayout battery_linear;
     public static String battery_get;
+    public static final int HANDLER_MESSAGE = 101;
+    String mDeviceMac;
+    String mDeviceName;
 
     //    Button mBtnOfflineMeasureEnable;
 //    @BindView(R.id.btnOfflineMeasureDisable)
@@ -53,12 +57,9 @@ public class BP5 extends FunctionFoldActivity {
     private int mClientCallbackId;
 
 
-    @Override
-    public int contentViewID() {
-        return R.layout.activity_bp5;
-    }
 
-    @Override
+
+
     public void initView() {
         mContext = this;
         Intent intent = getIntent();
@@ -281,7 +282,7 @@ public class BP5 extends FunctionFoldActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case HANDLER_MESSAGE:
-                    addLogInfo((String) msg.obj);
+
                     String output = (String) msg.obj;
                     System.out.println("Inside handler message ===>>> " + output);
                     break;
@@ -299,6 +300,12 @@ public class BP5 extends FunctionFoldActivity {
         iHealthDevicesManager.getInstance().unRegisterClientCallback(mClientCallbackId);
         super.onDestroy();
 
+    }
+
+    @NonNull
+    @Override
+    public Bp5Presenter createPresenter() {
+        return new Bp5Presenter();
     }
 
 
