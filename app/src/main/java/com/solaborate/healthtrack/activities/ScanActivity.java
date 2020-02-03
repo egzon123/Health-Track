@@ -3,6 +3,7 @@ package com.solaborate.healthtrack.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -59,6 +60,8 @@ public class ScanActivity extends MvpActivity<ScanView, ScanPresenter> implement
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mLoadingDialog.show();
+                System.out.println("INSIDE onClick = position:"+position+"---------------->>>>>>>>>>>>>>>");
+                Log.d(TAG,"INSIDE onClick = position:"+position);
                 presenter.connectDevice(position);
 
             }
@@ -96,14 +99,14 @@ public class ScanActivity extends MvpActivity<ScanView, ScanPresenter> implement
 
     @Override
     public void showFunctionActivity(String mac, String type) {
-        Intent intent = new Intent();
+        Intent intent = new Intent(ScanActivity.this, BP5Activity.class);
         intent.putExtra("mac", mac);
         intent.putExtra("type", type);
-        switch (type) {
-            case iHealthDevicesManager.TYPE_BP5:
-                intent.setClass(ScanActivity.this, BP5Activity.class);
-                break;
-        }
+//        switch (type) {
+//            case iHealthDevicesManager.TYPE_BP5:
+//
+//                break;
+//        }
         startActivity(intent);
     }
 

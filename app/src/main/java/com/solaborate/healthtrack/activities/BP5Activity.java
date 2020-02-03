@@ -28,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -49,6 +50,8 @@ public class BP5Activity extends MvpActivity<Bp5View, Bp5Presenter> implements B
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_bp5);
+        ButterKnife.bind(this);
         Intent intent = getIntent();
         String mDeviceMac = intent.getStringExtra("mac");
         String mDeviceName = intent.getStringExtra("type");
@@ -70,16 +73,16 @@ public class BP5Activity extends MvpActivity<Bp5View, Bp5Presenter> implements B
 
     @OnClick({R.id.btnDisconnect, R.id.btnMeasurement, R.id.btnStopMeasurement})
     public void onViewClicked(View view) {
-        if (presenter.getmBp5Control() == null) {
-            return;
-        }
+//        if (presenter.getmBp5Control() == null) {
+//            return;
+//        }
         switch (view.getId()) {
             case R.id.btnDisconnect:
                 presenter.getmBp5Control().disconnect();
-
                 Toast.makeText(this, "Disconnected", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btnMeasurement:
+                System.out.println("Start btn ==============");
                 presenter.getmBp5Control().startMeasure();
                 break;
             case R.id.btnStopMeasurement:
@@ -87,6 +90,13 @@ public class BP5Activity extends MvpActivity<Bp5View, Bp5Presenter> implements B
                 break;
 
         }
+    }
+
+    @OnClick(R.id.btnMeasurement)
+    public void start(){
+        System.out.println("Start btn ==============");
+        presenter.getmBp5Control().startMeasure();
+
     }
 
 

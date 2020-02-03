@@ -241,7 +241,8 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
                     String macConnect = bundleConnect.getString("mac");
                     String typeConnect = bundleConnect.getString("type");
                     iHealthDevicesManager.getInstance().stopDiscovery();
-                    ifViewAttached(view -> {
+                    System.out.println("Inside Handler Connect ---------------------------------");
+                        ifViewAttached(view -> {
                         view.showFunctionActivity(macConnect, typeConnect);
                     });
                     ifViewAttached(view -> {

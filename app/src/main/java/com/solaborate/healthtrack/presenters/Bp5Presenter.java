@@ -93,8 +93,8 @@ public class Bp5Presenter extends MvpBasePresenter<Bp5View> {
                         Toast.makeText(mContext, "Wait 5 minutes and try again.", Toast.LENGTH_SHORT);
                     }
 
-                    Toast.makeText(mContext, "Place your arme in the Device", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(mContext, "Place your arm in the Device", Toast.LENGTH_SHORT).show();
+                    mBp5Control.interruptMeasure();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -103,11 +103,24 @@ public class Bp5Presenter extends MvpBasePresenter<Bp5View> {
                 try {
                     JSONObject info = new JSONObject(message);
                     String pressure = info.getString(BpProfile.BLOOD_PRESSURE_BP);
-                    Log.d("BP5Activity", "pressure = " + pressure);
+                    Log.d("BP5Activity", "pressure =================================>>>>>>>>>>>>>>>>= " + pressure);
                     ifViewAttached(view -> {
                         view.showPressure(pressure);
                     });
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else if (BpProfile.ACTION_ONLINE_PULSEWAVE_BP.equals(action)) {
+                try {
+                    JSONObject info = new JSONObject(message);
+                    String pressure = info.getString(BpProfile.BLOOD_PRESSURE_BP);
+                    String wave = info.getString(BpProfile.PULSEWAVE_BP);
+                    String heartbeat = info.getString(BpProfile.FLAG_HEARTBEAT_BP);
+                    ifViewAttached(view -> {
+                        view.showPressure(pressure);
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -127,6 +140,7 @@ public class Bp5Presenter extends MvpBasePresenter<Bp5View> {
                      view.showLowPressure(lowPressure);
                      view.showPulse(pulse);
                  });
+                 mBp5Control.interruptMeasure();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
