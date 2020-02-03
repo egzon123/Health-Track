@@ -14,4 +14,6 @@ public interface Bp5View extends MvpView {
     void showHighPressure(String highPressure);
 
     void showLowPressure(String lowPressure);
+
+    void clearResult();
 }

@@ -1,5 +1,6 @@
 package com.solaborate.healthtrack.activities;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ec.easylibrary.dialog.loadingdialog.LoadingDialog;
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
@@ -69,29 +71,28 @@ public class ScanActivity extends MvpActivity<ScanView, ScanPresenter> implement
     }
 
     @Override
+    public void loadingDialogDissmis() {
+
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         presenter.unregisterCallBack();
-
-
     }
 
     @OnClick(R.id.btnDiscovery)
     public void onViewClicked() {
-        mLoadingDialog.show();
-        mTvListTitle.setVisibility(View.VISIBLE);
-        presenter.startDiscovery();
-
-    }
-
-
-    @Override
-    public void loadingDialogDismis() {
-        if (mLoadingDialog != null) {
-            mLoadingDialog.dismiss();
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+        } else if (!mBluetoothAdapter.isEnabled()) {
+            Toast.makeText(this, "Turn bluetooth on", Toast.LENGTH_SHORT).show();
+        } else {
+            mLoadingDialog.show();
+            mTvListTitle.setVisibility(View.VISIBLE);
+            presenter.startDiscovery();
         }
     }
-
     @Override
     public void loadingDialogShow() {
         mLoadingDialog.show();
@@ -102,11 +103,6 @@ public class ScanActivity extends MvpActivity<ScanView, ScanPresenter> implement
         Intent intent = new Intent(ScanActivity.this, BP5Activity.class);
         intent.putExtra("mac", mac);
         intent.putExtra("type", type);
-//        switch (type) {
-//            case iHealthDevicesManager.TYPE_BP5:
-//
-//                break;
-//        }
         startActivity(intent);
     }
 

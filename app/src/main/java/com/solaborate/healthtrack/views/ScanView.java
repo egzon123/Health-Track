@@ -7,9 +7,10 @@ public interface ScanView extends MvpView {
 
     void initScanListView(ListScanDeviceAdapter adapter);
 
-    void loadingDialogDismis();
+    void loadingDialogDissmis();
 
     void loadingDialogShow();
 
     void showFunctionActivity(String mac,String type);
+
 }

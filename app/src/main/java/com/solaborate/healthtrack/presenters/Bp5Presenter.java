@@ -54,7 +54,6 @@ public class Bp5Presenter extends MvpBasePresenter<Bp5View> {
             Log.i(TAG, "status: " + status);
             if (status == iHealthDevicesManager.DEVICE_STATE_DISCONNECTED) {
 
-                ToastUtils.showToast(mContext, "The device has been disconnected.");
                 ifViewAttached(view -> {
                 view.finishActivity();
                 });
@@ -68,83 +67,90 @@ public class Bp5Presenter extends MvpBasePresenter<Bp5View> {
             Log.i(TAG, "action: " + action);
             Log.i(TAG, "message: " + message);
 
-            if (BpProfile.ACTION_BATTERY_BP.equals(action)) {
-                try {
-                    JSONObject info = new JSONObject(message);
-                    String battery = info.getString(BpProfile.BATTERY_BP);
-                    Log.d(TAG,"battery :"+battery);
-                    ifViewAttached(view -> {
-                        view.showBattery(battery);
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else if (BpProfile.ACTION_ERROR_BP.equals(action)) {
-                try {
-                    JSONObject info = new JSONObject(message);
-                    String num = info.getString(BpProfile.ERROR_NUM_BP);
-                    Log.d(TAG,"ERROR num:"+num);
-                    int errorNum = Integer.parseInt(num);
-                    if(errorNum>=0 && errorNum<=2){
-                        Toast.makeText(mContext, "Try again without moving.", Toast.LENGTH_SHORT).show();
-                    }else if(errorNum==3 || errorNum==4){
-                        Toast.makeText(mContext, "Attach the cuff correctly and try again.", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(mContext, "Wait 5 minutes and try again.", Toast.LENGTH_SHORT);
+            switch (action) {
+                case BpProfile.ACTION_BATTERY_BP:
+                    try {
+                        JSONObject info = new JSONObject(message);
+                        String battery = info.getString(BpProfile.BATTERY_BP);
+                        Log.d(TAG, "battery :" + battery);
+                        ifViewAttached(view -> {
+                            view.showBattery(battery);
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case BpProfile.ACTION_ERROR_BP:
+                    try {
+                        JSONObject info = new JSONObject(message);
+                        String num = info.getString(BpProfile.ERROR_NUM_BP);
+                        Log.d(TAG, "ERROR num:" + num);
+                        int errorNum = Integer.parseInt(num);
+                        if (errorNum >= 0 && errorNum <= 2) {
+                            Toast.makeText(mContext, "Try again without moving.", Toast.LENGTH_SHORT).show();
+                        } else if (errorNum == 3 || errorNum == 4) {
+                            Toast.makeText(mContext, "Attach the cuff correctly and try again.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(mContext, "Wait 5 minutes and try again.", Toast.LENGTH_SHORT);
+                        }
+
+//                    Toast.makeText(mContext, "Place your arm in the Device", Toast.LENGTH_SHORT).show();
+                        mBp5Control.interruptMeasure();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
-                    Toast.makeText(mContext, "Place your arm in the Device", Toast.LENGTH_SHORT).show();
-                    mBp5Control.interruptMeasure();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    break;
+                case BpProfile.ACTION_ONLINE_PRESSURE_BP:
+                    try {
+                        JSONObject info = new JSONObject(message);
+                        String pressure = info.getString(BpProfile.BLOOD_PRESSURE_BP);
+                        Log.d("BP5Activity", "pressure =================================>>>>>>>>>>>>>>>>= " + pressure);
+                        ifViewAttached(view -> {
+                            view.showPressure(pressure);
+                        });
 
-            }  else if (BpProfile.ACTION_ONLINE_PRESSURE_BP.equals(action)) {
-                try {
-                    JSONObject info = new JSONObject(message);
-                    String pressure = info.getString(BpProfile.BLOOD_PRESSURE_BP);
-                    Log.d("BP5Activity", "pressure =================================>>>>>>>>>>>>>>>>= " + pressure);
-                    ifViewAttached(view -> {
-                        view.showPressure(pressure);
-                    });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    break;
+                case BpProfile.ACTION_ONLINE_PULSEWAVE_BP:
+                    try {
+                        JSONObject info = new JSONObject(message);
+                        String pressure = info.getString(BpProfile.BLOOD_PRESSURE_BP);
+                        String wave = info.getString(BpProfile.PULSEWAVE_BP);
+                        String heartbeat = info.getString(BpProfile.FLAG_HEARTBEAT_BP);
+                        ifViewAttached(view -> {
+                            view.showPressure(pressure);
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-            } else if (BpProfile.ACTION_ONLINE_PULSEWAVE_BP.equals(action)) {
-                try {
-                    JSONObject info = new JSONObject(message);
-                    String pressure = info.getString(BpProfile.BLOOD_PRESSURE_BP);
-                    String wave = info.getString(BpProfile.PULSEWAVE_BP);
-                    String heartbeat = info.getString(BpProfile.FLAG_HEARTBEAT_BP);
-                    ifViewAttached(view -> {
-                        view.showPressure(pressure);
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    break;
+                case BpProfile.ACTION_ONLINE_RESULT_BP:
+                    try {
 
-            } else if (BpProfile.ACTION_ONLINE_RESULT_BP.equals(action)) {
-                try {
-                    JSONObject info = new JSONObject(message);
-                    String highPressure = info.getString(BpProfile.HIGH_BLOOD_PRESSURE_BP);
-                    String lowPressure = info.getString(BpProfile.LOW_BLOOD_PRESSURE_BP);
-                    String pulse = info.getString(BpProfile.PULSE_BP);
-                 Log.d(TAG,"highPressure: " + highPressure
-                            + " lowPressure: " + lowPressure
+                        JSONObject info = new JSONObject(message);
+                        String highPressure = info.getString(BpProfile.HIGH_BLOOD_PRESSURE_BP);
+                        String lowPressure = info.getString(BpProfile.LOW_BLOOD_PRESSURE_BP);
+                        String pulse = info.getString(BpProfile.PULSE_BP);
+                        Log.d(TAG, "highPressure: " + highPressure
+                                + " lowPressure: " + lowPressure
 
-                            + " pulse: " + pulse);
-                 ifViewAttached(view -> {
-                     view.showHighPressure(highPressure);
-                     view.showLowPressure(lowPressure);
-                     view.showPulse(pulse);
-                 });
-                 mBp5Control.interruptMeasure();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                                + " pulse: " + pulse);
+                        ifViewAttached(view -> {
+                            view.showHighPressure(highPressure);
+                            view.showLowPressure(lowPressure);
+                            view.showPulse(pulse);
+                        });
+                        mBp5Control.interruptMeasure();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
+                    break;
             }
         }
     };

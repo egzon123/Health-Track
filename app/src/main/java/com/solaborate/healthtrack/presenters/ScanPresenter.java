@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.ec.easylibrary.utils.ToastUtils;
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
@@ -111,15 +112,9 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
                         }
                     }
                 });
-        System.out.println("===>>> Inside checkPermisson");
     }
 
     public void registerCallBackId() {
-
-        /*
-         * Register callback to the manager. This method will return a callback Id.
-         */
-
         callbackId = iHealthDevicesManager.getInstance().registerClientCallback(miHealthDevicesCallback);
 
         mAdapter = new ListScanDeviceAdapter(mContext, list_ScanDevices);
@@ -129,7 +124,6 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
         });
 
     }
-
     private iHealthDevicesCallback miHealthDevicesCallback = new iHealthDevicesCallback() {
 
         @Override
@@ -144,12 +138,10 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
             msg.what = HANDLER_SCAN;
             msg.setData(bundle);
             myHandler.sendMessage(msg);
-
             //Device additional information wireless MAC suffix table
             if (manufactorData != null) {
                 Log.d(TAG, "onScanDevice mac suffix = " + manufactorData.get(HsProfile.SCALE_WIFI_MAC_SUFFIX));
             }
-
         }
 
         @Override
@@ -173,17 +165,12 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
             myHandler.sendMessage(msg);
         }
 
-        /**
-         * Callback indicating an error happened during discovery.
-         *
-         * @param reason A string for the reason why discovery failed.
-         */
         @Override
         public void onScanError(String reason, long latency) {
             Log.e(TAG, reason);
             Log.e(TAG, "please wait for " + latency + " ms");
             ifViewAttached(view -> {
-                view.loadingDialogDismis();
+                view.loadingDialogDissmis();
             });
 
         }
@@ -191,8 +178,11 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
         @Override
         public void onScanFinish() {
             super.onScanFinish();
+            if(list_ScanDevices.size() == 0){
+                Toast.makeText(mContext, "No device found , try again", Toast.LENGTH_SHORT).show();
+            }
             ifViewAttached(view -> {
-                view.loadingDialogDismis();
+                view.loadingDialogDissmis();
             });
         }
     };
@@ -230,7 +220,7 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
                     mAdapter.setList(list_ScanDevices);
                     mAdapter.notifyDataSetChanged();
                     ifViewAttached(view -> {
-                        view.loadingDialogDismis();
+                        view.loadingDialogDissmis();
                     });
 
                     Log.d(TAG, "scan device : type:" + typeScan + " mac:" + macScan + " rssi:" + rssi);
@@ -246,7 +236,7 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
                         view.showFunctionActivity(macConnect, typeConnect);
                     });
                     ifViewAttached(view -> {
-                        view.loadingDialogDismis();
+                        view.loadingDialogDissmis();
                     });
 
                     ToastUtils.showToast(mContext, "The device is connected");
@@ -254,11 +244,9 @@ public class ScanPresenter extends MvpBasePresenter<ScanView> {
                     break;
                 case HANDLER_DISCONNECT:
                     ifViewAttached(view -> {
-                        view.loadingDialogDismis();
+                        view.loadingDialogDissmis();
                     });
 
-                    ToastUtils.showToast(mContext, "The device has been disconnected");
-//                    showLog(mContext.getString(R.string.connect_main_tip_disconnect));
                     break;
                 case HANDLER_CONNECT_FAIL:
 //                    ToastUtils.showToast(mContext, mContext.getString(R.string.connect_main_tip_connect_fail));

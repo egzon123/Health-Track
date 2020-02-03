@@ -21,10 +21,6 @@ public class BaseApplication extends Application {
     }
 
     private void init() {
-        /*
-         * Initializes the iHealth devices manager. Can discovery available iHealth devices nearby
-         * and connect these devices through iHealthDevicesManager.
-         */
         iHealthDevicesManager.getInstance().init(this,  Log.VERBOSE, Log.VERBOSE);
     }
 
