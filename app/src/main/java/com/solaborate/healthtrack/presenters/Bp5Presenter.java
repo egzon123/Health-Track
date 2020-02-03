@@ -54,7 +54,7 @@ public class Bp5Presenter extends MvpBasePresenter<Bp5View> {
             Log.i(TAG, "status: " + status);
             if (status == iHealthDevicesManager.DEVICE_STATE_DISCONNECTED) {
 
-                ToastUtils.showToast(mContext, "The device has been disconnected.");
+              //  ToastUtils.showToast(mContext, "The device has been disconnected.");
                 ifViewAttached(view -> {
                 view.finishActivity();
                 });

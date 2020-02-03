@@ -4,27 +4,29 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
 
-    android:background="@drawable/background">
+    android:background="@android:color/transparent">
     <LinearLayout
         android:id="@+id/battery_linear"
         android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/battery_nr"
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
+            android:layout_marginTop="3dp"
             android:text="100%" />
+
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_width="20dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/ic_battery_full_black_24dp" />
 
 
@@ -32,17 +34,17 @@
     <RelativeLayout
         android:layout_gravity="center_horizontal"
         android:id="@+id/rel1"
-        android:layout_width="300dp"
-        android:layout_height="80dp"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
         android:layout_centerHorizontal="true">
 
         <ImageView
             android:id="@+id/bluetooth"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:background="@drawable/circle_form"
             android:src="@drawable/ic_check_circle_black_24dp"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="30dp"
             />
         <ImageView
             android:id="@+id/next"
@@ -56,12 +58,13 @@
 
         <ImageView
             android:id="@+id/another_form"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:background="@drawable/circle_form"
             android:layout_toRightOf="@+id/bluetooth"
             android:layout_marginStart="80dp"
             android:src="@drawable/heart_pressure"
+            android:layout_marginTop="5dp"
             />
 
 
