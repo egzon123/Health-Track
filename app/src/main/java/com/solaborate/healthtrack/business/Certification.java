@@ -26,11 +26,13 @@ public class Certification {
        return isPass;
     }
 
-    public void checkIfPass(){
+    public boolean checkIfPass(){
         if(isPassCertification() == false){
             ToastUtils.showToast(BaseApplication.instance(),"Certification not passed");
+            return false;
         }else {
             System.out.println("--->> Certification passed <<---");
+            return true;
         }
     }
 }

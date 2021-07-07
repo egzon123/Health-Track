@@ -44,7 +44,7 @@ public class ListScanDeviceAdapter extends BaseAdapter {
 
     public View getView(int i, View view, ViewGroup viewGroup) {
         viewHolder viewHolder;
-        if (view == null) {//判断view是否为空
+        if (view == null) {
             viewHolder = new viewHolder();
             view = LayoutInflater.from(mContext).inflate(R.layout.list_item_scan_device, null);
             viewHolder.tvMac = (TextView) view.findViewById(R.id.tvMac);
@@ -58,7 +58,6 @@ public class ListScanDeviceAdapter extends BaseAdapter {
         return view;
     }
 
-    //内部类,声明我们需要显示的控件,避免重复的findViewById
     class viewHolder {
         public TextView tvMac;
         public TextView tvBtn;
